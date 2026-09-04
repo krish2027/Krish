@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KRISH — 3D Animator & Visual Artist</title>
+  <meta name="description" content="Krish — 3D Animator & Visual Artist portfolio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-logo">K<span>.</span></div>
+    <div class="loader-line"><i></i></div>
+    <small>LOADING EXPERIENCE</small>
+  </div>
+
+  <div class="noise"></div>
+  <div class="cursor"></div>
+  <div class="cursor-ring"></div>
+
+  <header class="nav">
+    <a class="brand" href="#home"><b>K</b><span>KRISH</span></a>
+    <nav>
+      <a class="active" href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#work">WORK</a>
+      <a href="#skills">SKILLS</a>
+      <a href="#experience">EXPERIENCE</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <a class="talk-btn magnetic" href="#contact">LET'S TALK</a>
+    <button class="menu" aria-label="Open menu"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <section id="home" class="hero section">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">HEY, I'M</p>
+        <h1>KRISH</h1>
+        <h2>3D ANIMATOR &amp; VISUAL ARTIST</h2>
+        <p class="hero-text">I create impactful 3D animation, CGI and visual experiences that bring ideas to life.</p>
+        <div class="hero-actions">
+          <a class="primary-btn magnetic" href="#work">VIEW MY WORK <span>↗</span></a>
+          <a class="secondary-btn magnetic" href="#" onclick="alert('Add your CV PDF and change this link in index.html');return false;">DOWNLOAD CV <span>↓</span></a>
+        </div>
+        <div class="scroll-hint"><span class="mouse"></span> SCROLL DOWN <i></i></div>
+      </div>
+
+      <div class="hero-scene">
+        <div id="hero-canvas"></div>
+        <div class="orbit-glow"></div>
+        <div class="hero-badge badge-one">BLENDER <small>3D ART</small></div>
+        <div class="hero-badge badge-two">CGI <small>VISUAL FX</small></div>
+      </div>
+
+      <div class="social-rail">
+        <a href="#" aria-label="Instagram">◎</a>
+        <a href="#" aria-label="YouTube">▶</a>
+        <a href="#" aria-label="Behance">Bē</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="about-card reveal">
+        <div class="about-image">
+          <div class="portrait-orb"></div>
+          <div class="portrait-silhouette">
+            <div class="head"></div><div class="hair"></div><div class="neck"></div><div class="body"></div>
+          </div>
+          <span class="image-kicker">CREATIVE<br>VISION</span>
+        </div>
+        <div class="about-copy">
+          <p class="eyebrow">ABOUT ME</p>
+          <h2>I'm Krish, a <em>3D Animator</em><br>based in India.</h2>
+          <p>I specialize in 3D Animation, Modeling, Texturing, Lighting and Rendering. I love turning concepts into visual stories.</p>
+          <div class="software-row">
+            <span>M</span><span>◈</span><span>Ps</span><span>Ae</span><span>✣</span>
+          </div>
+        </div>
+        <div class="stats">
+          <div><strong>2+</strong><span>Years Experience</span></div>
+          <div><strong>15+</strong><span>Projects Completed</span></div>
+          <div><strong>10+</strong><span>Happy Clients</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section work">
+      <div class="section-heading reveal">
+        <p class="eyebrow">FEATURED PROJECTS</p>
+        <a href="#">VIEW ALL PROJECTS <span>→</span></a>
+      </div>
+      <div class="project-grid">
+        <article class="project-card reveal magnetic-card">
+          <div class="project-visual cyber-bike"><div class="bike-3d"></div><span class="play">▶</span></div>
+          <h3>Cyber Bike</h3><p>3D Modeling &amp; Animation</p>
+        </article>
+        <article class="project-card reveal magnetic-card">
+          <div class="project-visual warrior"><div class="warrior-3d"></div><span class="play">▶</span></div>
+          <h3>Warrior Cinematic</h3><p>3D Animation</p>
+        </article>
+        <article class="project-card reveal magnetic-card">
+          <div class="project-visual mech"><div class="mech-3d"></div><span class="play">▶</span></div>
+          <h3>Mecha Bot</h3><p>3D Modeling</p>
+        </article>
+        <article class="project-card reveal magnetic-card">
+          <div class="project-visual island"><div class="island-3d"></div><span class="play">▶</span></div>
+          <h3>Floating Island</h3><p>Environment Design</p>
+        </article>
+      </div>
+      <div class="dots"><i class="selected"></i><i></i><i></i></div>
+    </section>
+
+    <section id="skills" class="section skills">
+      <div class="skills-left reveal">
+        <p class="eyebrow">MY SKILLS</p>
+        <div class="skill"><span>3D Modeling <b>90%</b></span><i><em style="width:90%"></em></i></div>
+        <div class="skill"><span>3D Animation <b>85%</b></span><i><em style="width:85%"></em></i></div>
+        <div class="skill"><span>Texturing <b>80%</b></span><i><em style="width:80%"></em></i></div>
+        <div class="skill"><span>Lighting &amp; Rendering <b>85%</b></span><i><em style="width:85%"></em></i></div>
+        <div class="skill"><span>Compositing <b>75%</b></span><i><em style="width:75%"></em></i></div>
+      </div>
+      <div class="tools reveal">
+        <p class="eyebrow">TOOLS I USE</p>
+        <div class="tool-grid">
+          <div>◉<small>Blender</small></div><div>Ⓜ<small>Maya</small></div><div>✣<small>ZBrush</small></div><div>◉<small>Substance<br>Painter</small></div><div>Ps<small>Photoshop</small></div>
+          <div>Ae<small>After Effects</small></div><div>Pr<small>Premiere Pro</small></div><div>U<small>Unreal Engine</small></div><div>◌<small>DaVinci Resolve</small></div><div>𝕄<small>Marvelous<br>Designer</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section experience">
+      <div class="section-heading reveal"><p class="eyebrow">EXPERIENCE</p><span>2024 — PRESENT</span></div>
+      <div class="timeline reveal">
+        <div><span>01</span><div><h3>3D Animator &amp; Visual Artist</h3><p>Creating cinematic animation, product visuals, environments and motion design.</p></div></div>
+        <div><span>02</span><div><h3>Freelance Creative</h3><p>Turning ideas into polished 3D visuals for digital experiences and brands.</p></div></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="contact-card reveal">
+        <div><p class="eyebrow">LET'S WORK TOGETHER</p><h2>Have a project in mind?</h2><p>I'm available for freelance work.</p></div>
+        <a class="primary-btn magnetic" href="mailto:your@email.com">CONTACT ME <span>→</span></a>
+        <div class="contact-orb"><div></div><div></div><div></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© 2024 Krish. All Rights Reserved.</span><div><a href="#home">HOME</a><a href="#about">ABOUT</a><a href="#work">WORK</a><a href="#skills">SKILLS</a><a href="#contact">CONTACT</a></div><span>Designed &amp; Built with ♥ by Krish</span></footer>
+
+  <script>window.__THREE_READY__=false;</script>
+  <script src="script.js"></script>
+</body>
+</html>

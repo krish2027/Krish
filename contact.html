@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | KRISH - 3D Animator & Visual Artist</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #08070d;
+      --card-bg: #0e0d16;
+      --card-border: #1a1727;
+      --accent-purple: #8b3dff;
+      --accent-neon: #a855f7;
+      --accent-glow: rgba(139, 61, 255, 0.45);
+      --text-main: #ffffff;
+      --text-muted: #8e8b9f;
+      --text-dim: #5c596e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Fixed WebGL Background */
+    #webgl-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Floating Social Rail */
+    .social-rail {
+      position: fixed;
+      right: 2rem;
+      top: 35%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 100;
+    }
+
+    .social-rail a {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .social-rail a:hover {
+      color: var(--accent-neon);
+      transform: scale(1.2);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      background: rgba(8, 7, 13, 0.75);
+      backdrop-filter: blur(15px);
+      z-index: 99;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 1.25rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-style: italic;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-main);
+      border-bottom: 2px solid var(--accent-purple);
+      padding-bottom: 4px;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--accent-purple);
+      color: var(--text-main);
+      background: transparent;
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-purple);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Page Header */
+    .contact-header {
+      padding-top: 9rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .tag-sub {
+      color: var(--accent-neon);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    .contact-header h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .contact-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+
+    /* Contact Dual Panel Section */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 3.5rem;
+      margin-bottom: 6rem;
+    }
+
+    /* Left Info Cards */
+    .info-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .contact-card:hover {
+      border-color: var(--accent-purple);
+      transform: translateY(-3px);
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: #151322;
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--accent-neon);
+    }
+
+    .card-meta h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .card-meta p {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .availability-card {
+      background: linear-gradient(135deg, rgba(139, 61, 255, 0.1), rgba(99, 102, 241, 0.05));
+      border: 1px dashed var(--accent-purple);
+      border-radius: 12px;
+      padding: 1.8rem;
+      margin-top: 1rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid #22c55e;
+      color: #4ade80;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .availability-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .availability-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* Right Form Card */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 3rem;
+      position: relative;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      background: #08070d;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.9rem 1.2rem;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 10px rgba(139, 61, 255, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #8b3dff, #6366f1);
+      color: #fff;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 900px) {
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-header h1 { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="webgl-bg"></canvas>
+
+  <div class="social-rail">
+    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#"><i class="fa-brands fa-behance"></i></a>
+    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+  </div>
+
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-mark">K</span> KRISH
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">HOME</a></li>
+      <li><a href="#">ABOUT</a></li>
+      <li><a href="#">WORK</a></li>
+      <li><a href="#">SKILLS</a></li>
+      <li><a href="#">EXPERIENCE</a></li>
+      <li><a href="#" class="active">CONTACT</a></li>
+    </ul>
+    <a href="#" class="btn-outline">DOWNLOAD CV</a>
+  </nav>
+
+  <div class="container">
+    <header class="contact-header">
+      <p class="tag-sub">GET IN TOUCH</p>
+      <h1>LET'S BUILD SOMETHING <br><span style="color: var(--accent-neon);">EXTRAORDINARY.</span></h1>
+      <p>Have an upcoming 3D project, game asset inquiry, or visual effects collaboration? Drop me a message and I'll get back to you within 24 hours.</p>
+    </header>
+
+    <section class="contact-wrapper">
+      
+      <div class="info-pane">
+        <div class="contact-card">
+          <div class="icon-box"><i class="fa-regular fa-envelope"></i></div>
+          <div class="card-meta">
+            <h4>Email</h4>
+            <p>krish.visuals@example.com</p>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="icon-box"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="card-meta">
+            <h4>Location</h4>
+            <p>Chandigarh / Mumbai, India</p>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="icon-box"><i class="fa-brands fa-discord"></i></div>
+          <div class="card-meta">
+            <h4>Discord</h4>
+            <p>krish_3d#8092</p>
+          </div>
+        </div>
+
+        <div class="availability-card">
+          <div class="status-badge">
+            <span class="status-dot"></span> Available for Q3 / Q4 Projects
+          </div>
+          <h3>Freelance & Full-time</h3>
+          <p>Accepting commissions for 3D character rigs, game-ready assets, high-end commercial rendering, and environmental world building.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent.');">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="John Doe" required />
+            </div>
+            <div class="form-group">
+              <label>Your Email</label>
+              <input type="email" placeholder="john@domain.com" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Project Type</label>
+              <select>
+                <option>3D Character Animation</option>
+                <option>Environment Design</option>
+                <option>Game Asset Production</option>
+                <option>Commercial CGI Rendering</option>
+                <option>Other Collaboration</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Estimated Budget</label>
+              <select>
+                <option>$1,000 - $3,000</option>
+                <option>$3,000 - $7,000</option>
+                <option>$10,000+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Project Details</label>
+            <textarea placeholder="Tell me about your timeline, references, and deliverables..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            SEND MESSAGE <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+    <footer>
+      <div>&copy; 2026 Krish. All Rights Reserved.</div>
+      <ul class="footer-links">
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">WORK</a></li>
+        <li><a href="#">SKILLS</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+      <div>Designed & Built with <span style="color:#ef4444;">&hearts;</span> by Krish</div>
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.querySelector("#webgl-bg");
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 12;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const purpleLight = new THREE.PointLight(0xa855f7, 3.5, 60);
+    purpleLight.position.set(6, 4, 5);
+    scene.add(purpleLight);
+
+    const cyanLight = new THREE.PointLight(0x6366f1, 2.5, 60);
+    cyanLight.position.set(-6, -4, 5);
+    scene.add(cyanLight);
+
+    // Group to hold 3D transmitter rings and wireframe orb
+    const hologramGroup = new THREE.Group();
+    hologramGroup.position.set(5.5, -0.5, -2); // Sits subtly on the right-hand backdrop
+
+    // Inner glowing sphere
+    const innerGeo = new THREE.SphereGeometry(1.4, 24, 24);
+    const innerMat = new THREE.MeshStandardMaterial({
+      color: 0x120e24,
+      roughness: 0.2,
+      metalness: 0.9,
+    });
+    const innerSphere = new THREE.Mesh(innerGeo, innerMat);
+    hologramGroup.add(innerSphere);
+
+    // Outer cyber wireframe
+    const wireGeo = new THREE.IcosahedronGeometry(2.1, 2);
+    const wireMat = new THREE.MeshStandardMaterial({
+      color: 0xa855f7,
+      wireframe: true,
+      emissive: 0x7e22ce,
+      emissiveIntensity: 0.4
+    });
+    const wireOrb = new THREE.Mesh(wireGeo, wireMat);
+    hologramGroup.add(wireOrb);
+
+    // Concentric orbiting rings
+    const ringGeo1 = new THREE.TorusGeometry(3.2, 0.03, 16, 100);
+    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x8b3dff });
+    const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+    ring1.rotation.x = Math.PI / 3;
+    hologramGroup.add(ring1);
+
+    const ringGeo2 = new THREE.TorusGeometry(3.6, 0.02, 16, 100);
+    const ringMat2 = new THREE.MeshBasicMaterial({ color: 0x6366f1 });
+    const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+    ring2.rotation.y = Math.PI / 4;
+    hologramGroup.add(ring2);
+
+    scene.add(hologramGroup);
+
+    // Floating Particles / Debris
+    const debrisGroup = new THREE.Group();
+    const debrisGeo = new THREE.DodecahedronGeometry(0.18, 0);
+    const debrisMat = new THREE.MeshStandardMaterial({ color: 0x2b223d, roughness: 0.7 });
+
+    for (let i = 0; i < 35; i++) {
+      const mesh = new THREE.Mesh(debrisGeo, debrisMat);
+      mesh.position.set(
+        (Math.random() - 0.5) * 22,
+        (Math.random() - 0.5) * 18,
+        (Math.random() - 0.5) * 10
+      );
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      const scale = 0.5 + Math.random() * 0.9;
+      mesh.scale.set(scale, scale, scale);
+      debrisGroup.add(mesh);
+    }
+    scene.add(debrisGroup);
+
+    // Mouse Tracking Logic
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Animation Render Loop
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
+
+      // Smooth inertia
+      targetX += (mouseX - targetX) * 0.05;
+      targetY += (mouseY - targetY) * 0.05;
+
+      const scrollY = window.scrollY || window.pageYOffset;
+
+      // Rotate central Hologram with cursor & time
+      wireOrb.rotation.x = elapsedTime * 0.25 + targetY * 0.4;
+      wireOrb.rotation.y = elapsedTime * 0.35 + targetX * 0.4;
+
+      innerSphere.rotation.y = -elapsedTime * 0.2;
+
+      ring1.rotation.z = elapsedTime * 0.4;
+      ring2.rotation.x = elapsedTime * 0.3;
+
+      // Parallax hovering
+      hologramGroup.position.y = -0.5 + Math.sin(elapsedTime * 1.5) * 0.15 + scrollY * 0.001;
+      debrisGroup.position.y = -scrollY * 0.0015;
+      debrisGroup.rotation.y = elapsedTime * 0.03;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
